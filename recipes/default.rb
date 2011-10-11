@@ -26,6 +26,11 @@ gem_package 'i18n' do
   action :install
   version "0.4.2"
 end
+
+gem_package 'rack' do
+  action :install
+  version '1.1.0'
+end
   
 bash "install_redmine" do
   cwd "#{node[:redmine][:basedir]}"
