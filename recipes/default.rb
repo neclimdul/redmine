@@ -22,8 +22,11 @@ include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
 include_recipe "application::default"
 
-gem_package 'i18n'
-
+gem_package 'i18n' do
+  action :install
+  version "0.4.2"
+end
+  
 bash "install_redmine" do
   cwd "#{node[:redmine][:basedir]}"
   user "root"
