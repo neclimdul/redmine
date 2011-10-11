@@ -24,25 +24,25 @@ include_recipe "apache2::mod_rewrite"
 include_recipe "passenger_apache2::mod_rails"
 
 bash "install_redmine" do
-  cwd "/srv"
+  cwd "#{node[:redmine][:basedir]}"
   user "root"
   code <<-EOH
     wget http://rubyforge.org/frs/download.php/#{node[:redmine][:dl_id]}/redmine-#{node[:redmine][:version]}.tar.gz
     tar xf redmine-#{node[:redmine][:version]}.tar.gz
     chown -R #{node[:apache][:user]} redmine-#{node[:redmine][:version]}
   EOH
-  not_if { ::File.exists?("/srv/redmine-#{node[:redmine][:version]}/Rakefile") }
+  not_if { ::File.exists?("#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/Rakefile") }
 end
 
-link "/srv/redmine" do
-  to "/srv/redmine-#{node[:redmine][:version]}"
+link "#{node[:redmine][:basedir]}/redmine" do
+  to "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
 end
 
 case node[:redmine][:db][:type]
 when "sqlite"
   include_recipe "sqlite"
   gem_package "sqlite3-ruby"
-  file "/srv/redmine-#{node[:redmine][:version]}/db/production.db" do
+  file "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/db/production.db" do
     owner node[:apache][:user]
     group node[:apache][:user]
     mode "0644"
@@ -51,7 +51,7 @@ when "mysql"
   include_recipe "mysql::client"
 end
 
-template "/srv/redmine-#{node[:redmine][:version]}/config/database.yml" do
+template "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/config/database.yml" do
   source "database.yml.erb"
   owner "root"
   group "root"
@@ -61,12 +61,12 @@ end
 
 execute "rake db:migrate RAILS_ENV='production'" do
   user node[:apache][:user]
-  cwd "/srv/redmine-#{node[:redmine][:version]}"
-  not_if { ::File.exists?("/srv/redmine-#{node[:redmine][:version]}/db/schema.rb") }
+  cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
+  not_if { ::File.exists?("#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/db/schema.rb") }
 end
 
 web_app "redmine" do
-  docroot "/srv/redmine/public"
+  docroot "#{node[:redmine][:basedir]}/redmine/public"
   template "redmine.conf.erb"
   server_name "redmine.#{node[:domain]}"
   server_aliases [ "redmine", node[:hostname] ]
