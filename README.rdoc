@@ -23,7 +23,8 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 
 * redmine[:dl_id] - download id on the rubyforge page, needs to be updated on new redmine releases.
 * redmine[:version] - release version of redmine to use.
-* redmine[:dir] - directory where redmine will be installed.
+* redmine[:basedir] - base directory where redmine will be installed, such as "/srv"
+* redmine[:dir] - directory where redmine will be installed, such as "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
 * redmine[:db][:type] - type of database to use, default is sqlite. mysql or postgresql can be used, but the recipe will need to modified, and the next three attributes adjusted. 
 * redmine[:db][:user] - database user to connect as, default is redmine.
 * redmine[:db][:password] - password for the user, default is a random string generated with OpenSSL::Random.random_bytes.
