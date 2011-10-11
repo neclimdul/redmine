@@ -18,10 +18,10 @@
 # limitations under the License.
 #
 
-include_recipe "rails"
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
-include_recipe "passenger_apache2::mod_rails"
+include_recipe "application::default"
+include_recipe "application::passenger_apache2"
 
 bash "install_redmine" do
   cwd "#{node[:redmine][:basedir]}"
