@@ -69,6 +69,11 @@ template "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/config
   mode "0664"
 end
 
+execute "rake generate_session_store" do
+  user node[:apache][:user]
+  cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
+end
+
 execute "rake db:migrate RAILS_ENV='production'" do
   user node[:apache][:user]
   cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
