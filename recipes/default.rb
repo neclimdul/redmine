@@ -22,6 +22,8 @@ include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
 include_recipe "application::default"
 
+gem_package 'i18n'
+
 bash "install_redmine" do
   cwd "#{node[:redmine][:basedir]}"
   user "root"
@@ -41,6 +43,7 @@ case node[:redmine][:db][:type]
 when "sqlite"
   include_recipe "sqlite"
   gem_package "sqlite3-ruby"
+  
   file "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/db/production.db" do
     owner node[:apache][:user]
     group node[:apache][:user]
