@@ -29,8 +29,8 @@ end
 set[:redmine][:basedir] = "/srv"
 set[:redmine][:dir] = "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
 
-default[:redmine][:dl_id]   = "75097"
-default[:redmine][:version] = "1.2.1"
+default[:redmine][:dl_id]   = "76867"
+default[:redmine][:version] = "2.3.0"
 
 default[:redmine][:db][:type]     = "sqlite"
 default[:redmine][:db][:user]     = "redmine"
