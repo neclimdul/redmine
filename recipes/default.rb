@@ -22,16 +22,16 @@ include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
 include_recipe "application::default"
 
-gem_package 'i18n' do
-  action :install
-  version "0.4.2"
+%w{ libmagickcore-dev libmagickwand-dev imagemagick }.each do |package_name|
+  package package_name do
+    action :install
+  end
 end
 
-gem_package 'rack' do
+gem_package 'bundler' do
   action :install
-  version '1.1.0'
 end
-  
+
 bash "install_redmine" do
   cwd "#{node[:redmine][:basedir]}"
   user "root"
@@ -48,17 +48,31 @@ link "#{node[:redmine][:basedir]}/redmine" do
 end
 
 case node[:redmine][:db][:type]
+when "mysql"
+  include_recipe "mysql::client"
+  execute "mysql-create-redmine-db" do
+    command "/usr/bin/mysql -u root -p\"#{node['mysql']['server_root_password']}\" mysql < #{node['mysql']['conf_dir']}/db_create_mysql.sql"
+    action :nothing
+  end
+  template "#{node['mysql']['conf_dir']}/db_create_mysql.sql" do
+    source "db_create_mysql.sql.erb"
+    owner "root"
+    group "root"
+    mode "0600"
+    notifies :run, "execute[mysql-create-redmine-db]", :immediately
+  end
+when "postgresql"
+  include_recipe "postgresql::client"
 when "sqlite"
   include_recipe "sqlite"
   gem_package "sqlite3-ruby"
-  
   file "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/db/production.db" do
     owner node[:apache][:user]
     group node[:apache][:user]
     mode "0644"
   end
-when "mysql"
-  include_recipe "mysql::client"
+when "sqlserver"
+  include_recipe "sqlserver::client"
 end
 
 template "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/config/database.yml" do
@@ -69,7 +83,11 @@ template "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/config
   mode "0664"
 end
 
-execute "rake generate_session_store" do
+execute "bundle install --without development test" do
+  cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
+end
+
+execute "rake generate_secret_token" do
   user node[:apache][:user]
   cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
 end
