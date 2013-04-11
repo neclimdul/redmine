@@ -1,23 +1,4 @@
 CREATE DATABASE IF NOT EXISTS <%= node[:redmine][:db][:dbname] %> CHARACTER SET utf8;
-
-drop procedure if exists createUser;
-delimiter $$
-create procedure createUser(username varchar(50), pw varchar(50), hostname varchar(100))
-begin
-IF (SELECT EXISTS(SELECT 1 FROM `mysql`.`user` WHERE `user` = username)) = 0 THEN
-    begin
-    set @sql = CONCAT('CREATE USER ', username, '@\'', hostname, '\' IDENTIFIED BY \'', pw, '\'');
-    prepare stmt from @sql;
-    execute stmt;
-    deallocate prepare stmt;
-    end;
-END IF;
-end $$
-delimiter ;
-
-call createUser('<%= node[:redmine][:db][:user] %>', '<%= node[:redmine][:db][:password] %>', '<%= node[:redmine][:db][:hostname] %>');
-drop procedure if exists createUser;
-
-GRANT ALL PRIVILEGES ON <%= node[:redmine][:db][:dbname] %>.* TO '<%= node[:redmine][:db][:user] %>'@'<%= node[:redmine][:db][:hostname] %>';
+GRANT ALL PRIVILEGES ON <%= node[:redmine][:db][:dbname] %>.* TO '<%= node[:redmine][:db][:user] %>'@'<%= node[:redmine][:db][:hostname] %>' IDENTIFIED BY '<%= node[:redmine][:db][:password] %>';
 FLUSH PRIVILEGES;
 
