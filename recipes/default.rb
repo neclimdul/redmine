@@ -101,7 +101,7 @@ end
 web_app "redmine" do
   docroot "#{node[:redmine][:basedir]}/redmine/public"
   template "redmine.conf.erb"
-  server_name "redmine.#{node[:domain]}"
-  server_aliases [ "redmine", node[:hostname] ]
+  server_name node[:redmine][:server_name]
+  server_aliases node[:redmine][:server_aliases]
   rails_env "production"
 end
