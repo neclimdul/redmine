@@ -82,6 +82,17 @@ template "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/config
   mode "0664"
 end
 
+directory "#{node[:redmine][:basedir]}/plugin_assets" do
+  action :create
+  owner node[:apache][:user]
+  group node[:apache][:group]
+  mode "0755"
+end
+
+link "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/public/plugin_assets" do
+  to "#{node[:redmine][:basedir]}/plugin_assets"
+end
+
 execute "bundle install --without development test" do
   cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
 end
