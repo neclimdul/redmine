@@ -19,22 +19,26 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 * passenger_apache2
 * apache2
 
-= ATTRIBUTES: 
+= ATTRIBUTES:
 
 * redmine[:dl_id] - download id on the rubyforge page, needs to be updated on new redmine releases.
 * redmine[:version] - release version of redmine to use.
 * redmine[:basedir] - base directory where redmine will be installed, such as "/srv"
 * redmine[:dir] - directory where redmine will be installed, such as "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
-* redmine[:db][:type] - type of database to use, default is sqlite. mysql or postgresql can be used, but the recipe will need to modified, and the next three attributes adjusted. 
+* redmine[:db][:type] - type of database to use, default is sqlite. mysql or postgresql can be used, but the recipe will need to modified, and the next three attributes adjusted.
 * redmine[:db][:user] - database user to connect as, default is redmine.
 * redmine[:db][:password] - password for the user, default is a random string generated with OpenSSL::Random.random_bytes.
 * redmine[:db][:hostname] - hostname of database server, default is localhost.
 
 = USAGE:
 
-Including this recipe in a run_list, role or on a node will install Redmine as a Passenger application under Apache2. 
+Including this recipe in a run_list, role or on a node will install Redmine as a Passenger application under Apache2.
 
   include_recipe "redmine"
+
+Because of all the options for installing passenger it is assumed you have something in your runlist that handles this. For example:
+
+  include_recipe "passenger_apache2::mod_rails"
 
 You'll probably want to customize it to fit your environment, as a site-cookbook, especially if you want to use something besides sqlite as the database backend. The attributes file has database_master commented out as an example start on using a node search to determine a database host. See the Chef wiki regarding searches for more information.
 

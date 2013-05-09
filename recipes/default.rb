@@ -20,7 +20,6 @@
 
 include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
-include_recipe "application::default"
 
 %w{ libmagickcore-dev libmagickwand-dev imagemagick }.each do |package_name|
   package package_name do
