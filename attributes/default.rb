@@ -38,5 +38,5 @@ default[:redmine][:db][:user]     = "redmine"
 default[:redmine][:db][:password] = pw
 default[:redmine][:db][:hostname] = "localhost"
 
-default[:redmine][:server_name] = "redmine.#{node[:domain]}"
-default[:redmine][:server_aliases] = ["redmine"]
+default[:redmine][:server_name] = "#{node[:hostname]}.#{node[:domain]}"
+default[:redmine][:server_aliases] = [node[:hostname]]
