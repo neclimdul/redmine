@@ -32,21 +32,21 @@ gem_package 'bundler' do
 end
 
 bash "install_redmine" do
-  cwd "#{node[:redmine][:basedir]}"
+  cwd node["redmine"]["basedir"]
   user "root"
   code <<-EOH
-    wget http://rubyforge.org/frs/download.php/#{node[:redmine][:dl_id]}/redmine-#{node[:redmine][:version]}.tar.gz
-    tar xf redmine-#{node[:redmine][:version]}.tar.gz
-    chown -R #{node[:apache][:user]} redmine-#{node[:redmine][:version]}
+    wget http://rubyforge.org/frs/download.php/#{node["redmine"]["dl_id"]}/redmine-#{node["redmine"]["version"]}.tar.gz
+    tar xf redmine-#{node["redmine"]["version"]}.tar.gz
+    chown -R #{node["apache"]["user"]} redmine-#{node["redmine"]["version"]}
   EOH
-  not_if { ::File.exists?("#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/Rakefile") }
+  not_if { ::File.exists?("#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/Rakefile") }
 end
 
-link "#{node[:redmine][:basedir]}/redmine" do
-  to "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
+link "#{node["redmine"]["basedir"]}/redmine" do
+  to "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
 end
 
-case node[:redmine][:db][:type]
+case node["redmine"]["db"]["type"]
 when "mysql"
   include_recipe "mysql::client"
   execute "mysql-create-redmine-db" do
@@ -65,53 +65,53 @@ when "postgresql"
 when "sqlite"
   include_recipe "sqlite"
   gem_package "sqlite3-ruby"
-  file "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/db/production.db" do
-    owner node[:apache][:user]
-    group node[:apache][:user]
+  file "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/db/production.db" do
+    owner node["apache"]["user"]
+    group node["apache"]["user"]
     mode "0644"
   end
 when "sqlserver"
   include_recipe "sqlserver::client"
 end
 
-template "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/config/database.yml" do
+template "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/config/database.yml" do
   source "database.yml.erb"
   owner "root"
   group "root"
-  variables :database_server => node[:redmine][:db][:hostname]
+  variables :database_server => node["redmine"]["db"]["hostname"]
   mode "0664"
 end
 
-directory "#{node[:redmine][:basedir]}/plugin_assets" do
+directory "#{node["redmine"]["basedir"]}/plugin_assets" do
   action :create
-  owner node[:apache][:user]
-  group node[:apache][:group]
+  owner node["apache"]["user"]
+  group node["apache"]["group"]
   mode "0755"
 end
 
-link "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/public/plugin_assets" do
-  to "#{node[:redmine][:basedir]}/plugin_assets"
+link "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/public/plugin_assets" do
+  to "#{node["redmine"]["basedir"]}/plugin_assets"
 end
 
 execute "bundle install --without development test" do
-  cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
+  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
 end
 
 execute "rake generate_secret_token" do
-  user node[:apache][:user]
-  cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
+  user node["apache"]["user"]
+  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
 end
 
 execute "rake db:migrate RAILS_ENV='production'" do
-  user node[:apache][:user]
-  cwd "#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}"
-  not_if { ::File.exists?("#{node[:redmine][:basedir]}/redmine-#{node[:redmine][:version]}/db/schema.rb") }
+  user node["apache"]["user"]
+  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
+  not_if { ::File.exists?("#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/db/schema.rb") }
 end
 
 web_app "redmine" do
-  docroot "#{node[:redmine][:basedir]}/redmine/public"
+  docroot "#{node["redmine"]["basedir"]}/redmine/public"
   template "redmine.conf.erb"
-  server_name node[:redmine][:server_name]
-  server_aliases node[:redmine][:server_aliases]
+  server_name node["redmine"]["server_name"]
+  server_aliases node["redmine"]["server_aliases"]
   rails_env "production"
 end

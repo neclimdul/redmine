@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS <%= node[:redmine][:db][:dbname] %> CHARACTER SET utf8;
-GRANT ALL PRIVILEGES ON <%= node[:redmine][:db][:dbname] %>.* TO '<%= node[:redmine][:db][:user] %>'@'<%= node[:redmine][:db][:hostname] %>' IDENTIFIED BY '<%= node[:redmine][:db][:password] %>';
+CREATE DATABASE IF NOT EXISTS <%= node["redmine"]["db"]["dbname"] %> CHARACTER SET utf8;
+GRANT ALL PRIVILEGES ON <%= node["redmine"]["db"]["dbname"] %>.* TO '<%= node["redmine"]["db"]["user"] %>'@'<%= node["redmine"]["db"]["hostname"] %>' IDENTIFIED BY '<%= node["redmine"]["db"]["password"] %>';
 FLUSH PRIVILEGES;
 

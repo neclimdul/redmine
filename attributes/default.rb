@@ -26,17 +26,17 @@ end
 #database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
 
 
-set[:redmine][:basedir] = "/srv"
-set[:redmine][:dir] = "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
+set["redmine"]["basedir"] = "/srv"
+set["redmine"]["dir"] = "#{redmine["basedir"]}/redmine-#{redmine["version"]}"
 
-default[:redmine][:dl_id]   = "76933"
-default[:redmine][:version] = "2.3.1"
+default["redmine"]["dl_id"]   = "76933"
+default["redmine"]["version"] = "2.3.1"
 
-default[:redmine][:db][:type]     = "mysql"
-default[:redmine][:db][:dbname]     = "redmine"
-default[:redmine][:db][:user]     = "redmine"
-default[:redmine][:db][:password] = pw
-default[:redmine][:db][:hostname] = "localhost"
+default["redmine"]["db"]["type"]     = "mysql"
+default["redmine"]["db"]["dbname"]     = "redmine"
+default["redmine"]["db"]["user"]     = "redmine"
+default["redmine"]["db"]["password"] = pw
+default["redmine"]["db"]["hostname"] = "localhost"
 
-default[:redmine][:server_name] = "#{node[:hostname]}.#{node[:domain]}"
-default[:redmine][:server_aliases] = [node[:hostname]]
+default["redmine"]["server_name"] = "#{node["hostname"]}.#{node["domain"]}"
+default["redmine"]["server_aliases"] = [node["hostname"]]
