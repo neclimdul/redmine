@@ -3,7 +3,7 @@
   ServerAlias <% @params["server_aliases"].each do |alias| %><%= alias %> <% end %>
   DocumentRoot <%= @params["docroot"] %>
 
-  RailsBaseURI /
+  RackBaseURI /
   RailsEnv <%= @params["rails_env"] %>
 
   <Directory <%= @params["docroot"] %>>
