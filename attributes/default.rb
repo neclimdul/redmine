@@ -29,8 +29,8 @@ end
 set["redmine"]["basedir"] = "/srv"
 set["redmine"]["dir"] = "#{redmine["basedir"]}/redmine-#{redmine["version"]}"
 
-default["redmine"]["dl_id"]   = "76933"
-default["redmine"]["version"] = "2.3.1"
+default["redmine"]["dl_id"]   = "77138"
+default["redmine"]["version"] = "2.3.3"
 
 default["redmine"]["db"]["type"]     = "mysql"
 default["redmine"]["db"]["dbname"]     = "redmine"
