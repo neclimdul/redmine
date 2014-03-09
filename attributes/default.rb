@@ -25,11 +25,9 @@ end
 
 #database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
 
-
 set["redmine"]["basedir"] = "/srv"
 set["redmine"]["dir"] = "#{redmine["basedir"]}/redmine-#{redmine["version"]}"
 
-default["redmine"]["dl_id"]   = "77138"
 default["redmine"]["version"] = "2.3.3"
 
 default["redmine"]["db"]["type"]     = "mysql"

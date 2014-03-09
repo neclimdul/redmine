@@ -35,7 +35,7 @@ bash "install_redmine" do
   cwd node["redmine"]["basedir"]
   user "root"
   code <<-EOH
-    wget http://rubyforge.org/frs/download.php/#{node["redmine"]["dl_id"]}/redmine-#{node["redmine"]["version"]}.tar.gz
+    wget http://www.redmine.org/releases/redmine-#{node[:redmine][:version]}.tar.gz
     tar xf redmine-#{node["redmine"]["version"]}.tar.gz
     chown -R #{node["apache"]["user"]} redmine-#{node["redmine"]["version"]}
   EOH

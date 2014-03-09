@@ -21,7 +21,6 @@ Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 
 = ATTRIBUTES:
 
-* redmine[:dl_id] - download id on the rubyforge page, needs to be updated on new redmine releases.
 * redmine[:version] - release version of redmine to use.
 * redmine[:basedir] - base directory where redmine will be installed, such as "/srv"
 * redmine[:dir] - directory where redmine will be installed, such as "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
