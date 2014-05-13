@@ -1,0 +1,26 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_solo
+  solo_rb:
+    ssl_verify_mode: verify_peer
+
+platforms:
+  - name: ubuntu-12.04
+    run_list:
+      - recipe[apt]
+
+suites:
+  - name: default
+    run_list:
+      - recipe[mysql::server]
+      - recipe[passenger_apache2::mod_rails]
+      - recipe[redmine::default]
+    attributes:
+      mysql:
+        server_root_password: 'root'
+        server_repl_password: 'root'
+        server_debian_password: 'root'
+
