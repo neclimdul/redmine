@@ -35,6 +35,8 @@ default["redmine"]["db"]["dbname"]     = "redmine"
 default["redmine"]["db"]["user"]     = "redmine"
 default["redmine"]["db"]["password"] = pw
 default["redmine"]["db"]["hostname"] = "localhost"
+# https://tickets.opscode.com/browse/COOK-3487
+default["redmine"]["db"]["recipe"] = "mysql::client"
 
 default["redmine"]["server_name"] = "#{node["hostname"]}.#{node["domain"]}"
 default["redmine"]["server_aliases"] = [node["hostname"]]

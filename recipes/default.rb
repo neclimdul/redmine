@@ -46,9 +46,10 @@ link "#{node["redmine"]["basedir"]}/redmine" do
   to "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
 end
 
+include_recipe node["redmine"]["db"]["recipe"]
+
 case node["redmine"]["db"]["type"]
 when "mysql"
-  include_recipe "mysql::client"
   execute "mysql-create-redmine-db" do
     command "/usr/bin/mysql -u root -p\"#{node['mysql']['server_root_password']}\" mysql < #{node['mysql']['conf_dir']}/db_create_mysql.sql"
     action :nothing
@@ -60,18 +61,13 @@ when "mysql"
     mode "0600"
     notifies :run, "execute[mysql-create-redmine-db]", :immediately
   end
-when "postgresql"
-  include_recipe "postgresql::client"
 when "sqlite"
-  include_recipe "sqlite"
   gem_package "sqlite3-ruby"
   file "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/db/production.db" do
     owner node["apache"]["user"]
     group node["apache"]["user"]
     mode "0644"
   end
-when "sqlserver"
-  include_recipe "sqlserver::client"
 end
 
 template "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/config/database.yml" do
