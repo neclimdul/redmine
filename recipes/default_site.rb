@@ -19,8 +19,10 @@
 # limitations under the License.
 #
 
-include_recipe "apache2"
-include_recipe "apache2::mod_rewrite"
-
-include_recipe "redmine::_source"
-include_recipe "redmine::_default_site"
+web_app "redmine" do
+  docroot "#{node["redmine"]["basedir"]}/redmine/public"
+  template "redmine.conf.erb"
+  server_name node["redmine"]["server_name"]
+  server_aliases node["redmine"]["server_aliases"]
+  rails_env "production"
+end
