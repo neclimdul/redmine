@@ -7,7 +7,7 @@ version           "0.12.0"
 
 recipe "redmine", "Installs and configures redmine under passenger + apache2"
 
-%w{ apache2 mysql sqlite rake }.each do |cb|
+%w{ apache2 }.each do |cb|
   depends cb
 end
 
