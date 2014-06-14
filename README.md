@@ -1,8 +1,8 @@
-# DESCRIPTION:
+# Description
 
 Installs Redmine, a Ruby on Rails ticket tracking and wiki tool.
 
-# REQUIREMENTS:
+# Requirements
 
 ## Platform:
 
@@ -22,7 +22,7 @@ Suggested:
 * passenger_apache2
 * rails
 
-# ATTRIBUTES:
+# Attributes
 
 * node['redmine']['version] - Release version of redmine to use.
 * node['redmine']['basedir'] - Base directory where redmine will be installed, such as "/srv"
@@ -39,7 +39,7 @@ Suggested:
 * node['redmine']['ssl_cert'] - Full path to ssl cert
 * node['redmine']['ssl_chain'] - Full path to ssl certificate chain. If not supplied, no chain will be used.
 
-# USAGE:
+# Usage
 
 Including this recipe in a run_list, role or on a node will install Redmine as a Passenger application under Apache2.
 
@@ -53,7 +53,7 @@ You'll probably want to customize it to fit your environment, as a site-cookbook
 
   http://wiki.opscode.com/display/chef/Search+Indexes
 
-# LICENSE and AUTHOR:
+# License and Author
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
 Author:: James Gilliland (<neclimdul@gmail.com>)
