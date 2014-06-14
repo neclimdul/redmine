@@ -23,4 +23,4 @@ include_recipe "apache2"
 include_recipe "apache2::mod_rewrite"
 
 include_recipe "redmine::_source"
-include_recipe "redmine::_default_site"
+include_recipe "redmine::default_site"
