@@ -56,6 +56,7 @@ You'll probably want to customize it to fit your environment, as a site-cookbook
 # LICENSE and AUTHOR:
 
 Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: James Gilliland (<neclimdul@gmail.com>)
 Copyright:: 2009, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
