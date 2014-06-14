@@ -6,28 +6,38 @@ Installs Redmine, a Ruby on Rails ticket tracking and wiki tool.
 
 == Platform:
 
-Tested on Ubuntu 9.04, uses the Opscode Apache2 cookbook which is Ubuntu/Debian specific.
+Tested on Ubuntu 12.04.
 
 == Cookbooks:
 
 Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
 
+Required:
+* apache2
+
+Suggested:
 * git
 * sqlite
 * mysql
-* rails
 * passenger_apache2
-* apache2
+* rails
 
 = ATTRIBUTES:
 
-* redmine[:version] - release version of redmine to use.
-* redmine[:basedir] - base directory where redmine will be installed, such as "/srv"
-* redmine[:dir] - directory where redmine will be installed, such as "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
-* redmine[:db][:type] - type of database to use, default is sqlite. mysql or postgresql can be used, but the recipe will need to modified, and the next three attributes adjusted.
-* redmine[:db][:user] - database user to connect as, default is redmine.
-* redmine[:db][:password] - password for the user, default is a random string generated with OpenSSL::Random.random_bytes.
-* redmine[:db][:hostname] - hostname of database server, default is localhost.
+* node['redmine']['version] - Release version of redmine to use.
+* node['redmine']['basedir'] - Base directory where redmine will be installed, such as "/srv"
+* node['redmine']['dir'] - Directory where redmine will be installed, such as "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
+* node['redmine']['db']['recipe'] - Database cookbook recipe. This can by sqlite, postgres or mysql. It also allows different mysql flavors like mariadb or site specific database recipes.
+* node['redmine']['db']['type'] - Type of database to use, default is sqlite. mysql or postgresql can be used. Used for connection driver.
+* node['redmine']['db']['dbname'] - The name of the database schema, default is redmine.
+* node['redmine']['db']['user'] - Database user to connect as, default is redmine.
+* node['redmine']['db']['password'] - Password for the user, default is a random string generated with OpenSSL::Random.random_bytes.
+* node['redmine']['db']['hostname'] - Hostname of database server, default is localhost.
+* node['redmine']['server_name'] - Server name.
+* node['redmine']['server_aliases'] - Any server aliases.
+* node['redmine']['ssl_key'] - Full path to ssl key
+* node['redmine']['ssl_cert'] - Full path to ssl cert
+* node['redmine']['ssl_chain'] - Full path to ssl certificate chain. If not supplied, no chain will be used.
 
 = USAGE:
 
