@@ -1,19 +1,5 @@
 <VirtualHost *:80>
   ServerName <%= @params[:server_name] %>
   ServerAlias <% @params[:server_aliases].each do |server_alias| %><%= server_alias %> <% end %>
-  DocumentRoot <%= @params[:docroot] %>
-
-  RackBaseURI /
-  RailsEnv <%= @params[:rails_env] %>
-
-  <Directory <%= @params[:docroot] %>>
-    Options FollowSymLinks
-    AllowOverride None
-    Order allow,deny
-    Allow from all
-  </Directory>
-
-  LogLevel info
-  ErrorLog <%= node["apache"]["log_dir"] %>/<%= @params[:name] %>-error.log
-  CustomLog <%= node["apache"]["log_dir"] %>/<%= @params[:name] %>-access.log combined
+  Redirect permanent / https://<%= @params[:server_name] %>/
 </VirtualHost>

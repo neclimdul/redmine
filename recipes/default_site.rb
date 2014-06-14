@@ -19,10 +19,24 @@
 # limitations under the License.
 #
 
+# Create default virtual redirecting to SSL virtualhost.
 web_app "redmine" do
-  docroot "#{node["redmine"]["basedir"]}/redmine/public"
   template "redmine.conf.erb"
   server_name node["redmine"]["server_name"]
   server_aliases node["redmine"]["server_aliases"]
+end
+
+include_recipe 'apache2::mod_ssl'
+
+# Create SSL virtualhost
+web_app 'redmine-ssl' do
+  docroot "#{node["redmine"]["basedir"]}/redmine/public"
+  template "redmine-ssl.conf.erb"
+  server_name node["redmine"]["server_name"]
+  server_aliases node["redmine"]["server_aliases"]
   rails_env "production"
+
+  ssl_key node["redmine"]["ssl_key"]
+  ssl_cert node["redmine"]["ssl_key"]
+  ssl_chain node["redmine"]["ssl_chain"]
 end
