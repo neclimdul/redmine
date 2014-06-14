@@ -37,6 +37,6 @@ web_app 'redmine-ssl' do
   rails_env "production"
 
   ssl_key node["redmine"]["ssl_key"]
-  ssl_cert node["redmine"]["ssl_key"]
+  ssl_cert node["redmine"]["ssl_cert"]
   ssl_chain node["redmine"]["ssl_chain"]
 end

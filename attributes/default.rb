@@ -44,9 +44,9 @@ default["redmine"]["server_aliases"] = [node["hostname"]]
 default['redmine']['ssl_chain'] = nil
 case node['platform']
 when 'debian', 'ubuntu'
-  default['redmine']['ssl_key'] = '/etc/ssl/private/redmine.key'
-  default['redmine']['ssl_cert'] = '/etc/ssl/certs/redmine.cert'
+  default['redmine']['ssl_key'] = '/etc/ssl/private/ssl-cert-snakeoil.key'
+  default['redmine']['ssl_cert'] = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
 when 'redhat', 'centos', 'fedora', 'scientific', 'amazon'
   default['redmine']['ssl_key'] = '/etc/pki/tls/private/redmine.key'
-  default['redmine']['ssl_cert'] = '/etc/pki/tls/certs/redmine.cert'
+  default['redmine']['ssl_cert'] = '/etc/pki/tls/certs/redmine.pem'
 end

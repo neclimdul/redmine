@@ -88,7 +88,6 @@ link "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/public
 end
 
 execute "bundle install --without development test" do
-  user node["apache"]["user"]
   cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
 end
 
