@@ -51,6 +51,7 @@ when "mysql"
   execute "mysql-create-redmine-db" do
     command "/usr/bin/mysql -u root -p\"#{node['mysql']['server_root_password']}\" mysql < #{node['mysql']['conf_dir']}/db_create_mysql.sql"
     action :nothing
+    notifies :restart, "service[apache2]", :immediately
   end
   template "#{node['mysql']['conf_dir']}/db_create_mysql.sql" do
     source "db_create_mysql.sql.erb"
