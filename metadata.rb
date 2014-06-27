@@ -7,10 +7,7 @@ version           "0.12.3"
 
 recipe "redmine", "Installs and configures redmine under passenger + apache2"
 
-%w{ apache2 }.each do |cb|
-  depends cb
-end
+depends apache2
 
-%w{ ubuntu debian }.each do |os|
-  supports os
-end
+supports ubuntu
+supports debian
