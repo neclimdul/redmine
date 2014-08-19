@@ -44,26 +44,58 @@ end
 include_recipe node["redmine"]["db"]["server_recipe"] if !node["redmine"]["db"]["server_recipe"].empty?
 include_recipe node["redmine"]["db"]["client_recipe"] if !node["redmine"]["db"]["client_recipe"].empty?
 
-case node["redmine"]["db"]["type"]
-when "mysql"
-  execute "mysql-create-redmine-db" do
-    command "/usr/bin/mysql -u root -p\"#{node['mysql']['server_root_password']}\" mysql < #{node['mysql']['conf_dir']}/db_create_mysql.sql"
-    action :nothing
-    notifies :restart, "service[apache2]", :immediately
-  end
-  template "#{node['mysql']['conf_dir']}/db_create_mysql.sql" do
-    source "db_create_mysql.sql.erb"
-    owner "root"
-    group "root"
-    mode "0600"
-    notifies :run, "execute[mysql-create-redmine-db]", :immediately
-  end
-when "sqlite"
+if node["redmine"]["db"]["type"] == 'sqlite'
   gem_package "sqlite3-ruby"
   file "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/db/production.db" do
     owner node["apache"]["user"]
     group node["apache"]["user"]
     mode "0644"
+  end
+
+else
+  connection_info = {
+    :host     => node["redmine"]["db"]["hostname"],
+  }
+
+  case node["redmine"]["db"]["type"]
+  when "mysql", "mariadb"
+    include_recipe "database::mysql"
+    db_provider = Chef::Provider::Database::Mysql
+    user_provider = Chef::Provider::Database::MysqlUser
+    connection_info.merge!(
+      :username => 'root',
+      :password => node['mysql']['server_root_password']
+    )
+  when "postgres"
+    include_recipe "database::postgres"
+    db_provider = Chef::Provider::Database::Postgresql
+    user_provider = Chef::Provider::Database::PostgresqlUser
+    connection_info.merge!(
+      :port     => node['postgresql']['config']['port'],
+      :username => 'postgres',
+      :password => node['postgresql']['password']['postgres']
+    )
+  when "sqlserver"
+    db_provider = Chef::Provider::Database::SqlServer
+    user_provider = Chef::Provider::Database::SqlServerUser
+    connection_info.merge!(
+      :port     => node['sql_server']['port'],
+      :username => 'sa',
+      :password => node['sql_server']['server_sa_password']
+    )
+  end
+
+  database node["redmine"]["db"]["dbname"] do
+    provider db_provider
+    connection connection_info
+    action :create
+  end
+  database_user node["redmine"]["db"]["user"] do
+    provider user_provider
+    connection connection_info
+    password node["redmine"]["db"]["password"]
+    privileges [:all]
+    action :grant
   end
 end
 

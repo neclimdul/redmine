@@ -1,6 +1,7 @@
 source "https://api.berkshelf.com"
 metadata
 
+cookbook 'database'
 cookbook 'apache2'
 group :integration do
   cookbook 'apt', '~> 2.0'

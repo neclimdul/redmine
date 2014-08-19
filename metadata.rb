@@ -7,6 +7,7 @@ version           "0.13.0"
 
 recipe "redmine", "Installs and configures redmine under passenger + apache2"
 
+depends "database"
 depends "apache2"
 depends "openssl"
 depends "imagemagick"
