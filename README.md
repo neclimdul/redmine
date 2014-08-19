@@ -10,10 +10,10 @@ Tested on Ubuntu 12.04.
 
 ## Cookbooks:
 
-Opscode cookbooks (http://github.com/opscode/cookbooks/tree/master)
-
 Required:
 * apache2
+* openssl
+* imagemagick
 
 Suggested:
 * git
@@ -27,7 +27,8 @@ Suggested:
 * node['redmine']['version] - Release version of redmine to use.
 * node['redmine']['basedir'] - Base directory where redmine will be installed, such as "/srv"
 * node['redmine']['dir'] - Directory where redmine will be installed, such as "#{redmine[:basedir]}/redmine-#{redmine[:version]}"
-* node['redmine']['db']['recipe'] - Database cookbook recipe. This can by sqlite, postgres or mysql. It also allows different mysql flavors like mariadb or site specific database recipes.
+* node['redmine']['db']['server_recipe'] - Database cookbook recipe. If using a remote server, set this to nil to skip installation.
+* node['redmine']['db']['client_recipe'] - Database client and library cookbook recipe. If nil, will be skiped.
 * node['redmine']['db']['type'] - Type of database to use, default is sqlite. mysql or postgresql can be used. Used for connection driver.
 * node['redmine']['db']['dbname'] - The name of the database schema, default is redmine.
 * node['redmine']['db']['user'] - Database user to connect as, default is redmine.
@@ -45,11 +46,11 @@ Including this recipe in a run_list, role or on a node will install Redmine as a
 
     include_recipe "redmine"
 
-Because of all the options for installing passenger it is assumed you have something in your runlist that handles this. For example:
+Because of all the options for running a Rails applicaiton, it is assumed you have something in your runlist that handles this. For example:
 
     include_recipe "passenger_apache2::mod_rails"
 
-You'll probably want to customize it to fit your environment, as a site-cookbook, especially if you want to use something besides sqlite as the database backend. The attributes file has database_master commented out as an example start on using a node search to determine a database host. See the Chef wiki regarding searches for more information.
+You'll probably want to customize it to fit your environment, as a site-cookbook, especially if you want to use something besides sqlite as the database backend. The attributes file has database_server commented out as an example start on using a node search to determine a database host. See the Chef wiki regarding searches for more information.
 
   http://wiki.opscode.com/display/chef/Search+Indexes
 

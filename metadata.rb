@@ -1,6 +1,6 @@
 name              "redmine"
 maintainer        "Opscode, Inc."
-maintainer_email  "cookbooks@opscode.com"
+maintainer_email  "neclimdul@gmail.com"
 license           "Apache 2.0"
 description       "Installs and configures redmine as a Rails app in passenger+apache2"
 version           "0.13.0"
