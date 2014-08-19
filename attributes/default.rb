@@ -27,14 +27,13 @@ end
 
 default["redmine"]["version"] = "2.4.5"
 
-set["redmine"]["basedir"] = "/srv"
-set["redmine"]["dir"] = "#{redmine["basedir"]}/redmine-#{redmine["version"]}"
+set["redmine"]["basedir"] = "/srv/redmine"
 
 default["redmine"]["db"]["type"]     = "mysql"
-default["redmine"]["db"]["dbname"]     = "redmine"
-default["redmine"]["db"]["user"]     = "redmine"
+default["redmine"]["db"]["database"]     = "redmine"
+default["redmine"]["db"]["username"]     = "redmine"
 default["redmine"]["db"]["password"] = pw
-default["redmine"]["db"]["hostname"] = "localhost"
+default["redmine"]["db"]["host"] = "localhost"
 # https://tickets.opscode.com/browse/COOK-3487
 default["redmine"]["db"]["server_recipe"] = "mysql::server"
 default["redmine"]["db"]["client_recipe"] = "mysql::client"

@@ -3,12 +3,12 @@
 load test_helper
 
 @test "redmine source linked" {
-  run find /srv/redmine
+  run find /srv/redmine/current
   assert_success
 }
 
 @test "redmine source in linked directory" {
-  run find /srv/redmine/Gemfile
+  run find /srv/redmine/current/Gemfile
   assert_success
 }
 
@@ -19,12 +19,12 @@ load test_helper
 }
 
 @test "Bundle install was run on redmine" {
-  run find /srv/redmine/.bundle
+  run find /srv/redmine/current/.bundle
   assert_success
 }
 
 @test "Bundle setup allows setup of plugins" {
-  cd /srv/redmine
+  cd /srv/redmine/current
   export PATH="/opt/chef/embedded/bin:$PATH"
   export GEM_PATH="/opt/chef/embedded/lib/ruby/gems/1.9.1"
   run /opt/chef/embedded/bin/bundle exec rake -T redmine:email:receive_imap RAILS_ENV='production'
@@ -32,7 +32,7 @@ load test_helper
 }
 
 @test "Bundle setup allows setup of plugins" {
-  cd /srv/redmine
+  cd /srv/redmine/current
   export PATH="/opt/chef/embedded/bin:$PATH"
   export GEM_PATH="/opt/chef/embedded/lib/ruby/gems/1.9.1"
   run /opt/chef/embedded/bin/bundle exec rake -T redmine:plugins:migrate RAILS_ENV='production'

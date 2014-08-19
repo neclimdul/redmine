@@ -2,7 +2,7 @@
 # Author: Joshua Timberman <joshua@housepub.org>
 # Author: James Gilliland (<neclimdul@gmail.com>)
 # Cookbook Name:: redmine
-# Recipe:: _source
+# Recipe:: _database
 #
 # Copyright 2008-2009, Joshua Timberman
 # Copyright 2014, James Gilliland
@@ -20,27 +20,6 @@
 # limitations under the License.
 #
 
-include_recipe "imagemagick::devel"
-
-gem_package 'bundler' do
-  action :install
-end
-
-bash "install_redmine" do
-  cwd node["redmine"]["basedir"]
-  user "root"
-  code <<-EOH
-    wget http://www.redmine.org/releases/redmine-#{node['redmine']['version']}.tar.gz
-    tar xf redmine-#{node["redmine"]["version"]}.tar.gz
-    chown -R #{node["apache"]["user"]} redmine-#{node["redmine"]["version"]}
-  EOH
-  not_if { ::File.exists?("#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/Rakefile") }
-end
-
-link "#{node["redmine"]["basedir"]}/redmine" do
-  to "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
-end
-
 include_recipe node["redmine"]["db"]["server_recipe"] if !node["redmine"]["db"]["server_recipe"].empty?
 include_recipe node["redmine"]["db"]["client_recipe"] if !node["redmine"]["db"]["client_recipe"].empty?
 
@@ -54,7 +33,7 @@ if node["redmine"]["db"]["type"] == 'sqlite'
 
 else
   connection_info = {
-    :host     => node["redmine"]["db"]["hostname"],
+    :host     => node["redmine"]["db"]["host"],
   }
 
   case node["redmine"]["db"]["type"]
@@ -85,54 +64,16 @@ else
     )
   end
 
-  database node["redmine"]["db"]["dbname"] do
+  database node["redmine"]["db"]["database"] do
     provider db_provider
     connection connection_info
     action :create
   end
-  database_user node["redmine"]["db"]["user"] do
+  database_user node["redmine"]["db"]["username"] do
     provider user_provider
     connection connection_info
     password node["redmine"]["db"]["password"]
     privileges [:all]
     action :grant
   end
-end
-
-template "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/config/database.yml" do
-  source "database.yml.erb"
-  owner "root"
-  group "root"
-  variables :database_server => node["redmine"]["db"]["hostname"]
-  mode "0664"
-end
-
-directory "#{node["redmine"]["basedir"]}/plugin_assets" do
-  action :create
-  owner node["apache"]["user"]
-  group node["apache"]["group"]
-  mode "0755"
-end
-
-link "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/public/plugin_assets" do
-  to "#{node["redmine"]["basedir"]}/plugin_assets"
-end
-
-execute "redmine-bundle-install" do
-  command "bundle install --path /srv/redmine/.bundle"
-  user node["apache"]["user"]
-  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
-end
-
-execute "redmine-create-secret-token" do
-  command "bundle exec rake generate_secret_token"
-  user node["apache"]["user"]
-  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
-end
-
-execute "redmine-setup-db" do
-  command "bundle exec rake db:migrate RAILS_ENV='production'"
-  user node["apache"]["user"]
-  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
-  not_if { ::File.exists?("#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/db/schema.rb") }
 end
