@@ -89,16 +89,20 @@ link "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/public
   to "#{node["redmine"]["basedir"]}/plugin_assets"
 end
 
-execute "bundle install --without development test" do
-  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
-end
-
-execute "rake generate_secret_token" do
+execute "redmine-bundle-install" do
+  command "bundle install --path /srv/redmine/.bundle"
   user node["apache"]["user"]
   cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
 end
 
-execute "rake db:migrate RAILS_ENV='production'" do
+execute "redmine-create-secret-token" do
+  command "bundle exec rake generate_secret_token"
+  user node["apache"]["user"]
+  cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
+end
+
+execute "redmine-setup-db" do
+  command "bundle exec rake db:migrate RAILS_ENV='production'"
   user node["apache"]["user"]
   cwd "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
   not_if { ::File.exists?("#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}/db/schema.rb") }
