@@ -9,6 +9,7 @@ recipe "redmine", "Installs and configures redmine under passenger + apache2"
 
 depends "apache2"
 depends "openssl"
+depends "imagemagick"
 
 supports "ubuntu"
 supports "debian"

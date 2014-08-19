@@ -19,11 +19,7 @@
 # limitations under the License.
 #
 
-%w{ libmagickcore-dev libmagickwand-dev imagemagick }.each do |package_name|
-  package package_name do
-    action :install
-  end
-end
+include_recipe "imagemagick::devel"
 
 gem_package 'bundler' do
   action :install
