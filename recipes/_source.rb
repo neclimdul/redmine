@@ -44,7 +44,8 @@ link "#{node["redmine"]["basedir"]}/redmine" do
   to "#{node["redmine"]["basedir"]}/redmine-#{node["redmine"]["version"]}"
 end
 
-include_recipe node["redmine"]["db"]["recipe"]
+include_recipe node["redmine"]["db"]["server_recipe"] if !node["redmine"]["db"]["server_recipe"].empty?
+include_recipe node["redmine"]["db"]["client_recipe"] if !node["redmine"]["db"]["client_recipe"].empty?
 
 case node["redmine"]["db"]["type"]
 when "mysql"
