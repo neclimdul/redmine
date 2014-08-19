@@ -17,6 +17,7 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[mysql::server]
       - recipe[passenger_apache2::mod_rails]
       - recipe[redmine::default]
     attributes:
