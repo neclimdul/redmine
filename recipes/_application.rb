@@ -40,6 +40,8 @@ db.delete("type");
 
 application "redmine" do
   path node["redmine"]["basedir"]
+  # Allow deploy from non-master commits/branches.
+  shallow_clone false
   repository "https://github.com/redmine/redmine.git"
   revision node["redmine"]["version"]
   migrate true
