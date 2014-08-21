@@ -42,6 +42,7 @@ application "redmine" do
   path node["redmine"]["basedir"]
   repository "https://github.com/redmine/redmine.git"
   revision node["redmine"]["version"]
+  migrate true
 
   rails do
     gems ['bundler']
