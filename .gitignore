@@ -1,0 +1,4 @@
+.bundle
+.kitchen
+Berksfile.lock
+Gemfile.lock
