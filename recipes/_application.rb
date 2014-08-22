@@ -38,6 +38,15 @@ when "sqlite"
 end
 db.delete("type");
 
+directory "#{node["redmine"]["basedir"]}/shared/files" do
+  owner node['apache']['user']
+  recursive true
+end
+directory "#{node["redmine"]["basedir"]}/shared/plugins" do
+  owner node['apache']['user']
+  recursive true
+end
+
 application "redmine" do
   path node["redmine"]["basedir"]
   # Allow deploy from non-master commits/branches.
@@ -46,6 +55,11 @@ application "redmine" do
   revision node["redmine"]["version"]
   migrate true
 
+  purge_before_symlink %w{files plugins}
+  symlinks(
+    "files"   => "files",
+    "plugins"   => "plugins"
+  )
   rails do
     gems ['bundler']
     database db

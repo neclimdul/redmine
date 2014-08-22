@@ -32,3 +32,20 @@ describe "Redmine redirect" do
     it { should eq '200' }
   end
 end
+
+describe file("/srv/redmine/shared/files") do
+  it { should be_directory }
+  it { should be_owned_by "www-data" }
+end
+
+describe file("/srv/redmine/current/files") do
+  it { should be_linked_to '/srv/redmine/shared/files' }
+end
+
+describe file("/srv/redmine/shared/plugins") do
+  it { should be_directory }
+end
+
+describe file("/srv/redmine/current/plugins") do
+  it { should be_linked_to '/srv/redmine/shared/plugins' }
+end
