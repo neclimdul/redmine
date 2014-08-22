@@ -21,7 +21,8 @@ describe "Redmine redirect" do
 #   end
 end
 
-describe "Redmine redirect" do
+# Basic response verification
+describe "Redmine application" do
   uri = URI('https://127.0.0.1')
   http = Net::HTTP.new(uri.host, uri.port)
   http.use_ssl   = true
