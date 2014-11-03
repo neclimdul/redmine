@@ -7,7 +7,7 @@ version           "0.12.3"
 
 recipe "redmine", "Installs and configures redmine under passenger + apache2"
 
-depends apache2
+depends "apache2"
 
-supports ubuntu
-supports debian
+supports "ubuntu"
+supports "debian"
