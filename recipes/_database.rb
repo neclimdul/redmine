@@ -38,7 +38,6 @@ else
 
   case node["redmine"]["db"]["type"]
   when "mysql", "mariadb"
-    gem_package "mysql2"
     include_recipe "database::mysql"
     db_provider = Chef::Provider::Database::Mysql
     user_provider = Chef::Provider::Database::MysqlUser
