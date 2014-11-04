@@ -5,6 +5,7 @@
 # Recipe:: default_site
 #
 # Copyright 2008-2009, Joshua Timberman
+# Copyright 2014, James Gilliland
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.

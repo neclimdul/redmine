@@ -3,25 +3,28 @@ driver_plugin: vagrant
 driver_config:
   require_chef_omnibus: true
   customize:
+    cpus: 2
     memory: 1024
 
 platforms:
-- name: ubuntu-12.04
-  driver_config:
-    box: opscode-ubuntu-12.04-provisionerless
-    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-  run_list:
-  - recipe[apt]
-
+  - name: ubuntu-12.04
+    run_list:
+    - recipe[apt]
+  - name: ubuntu-14.04
+    run_list:
+    - recipe[apt]
+  - name: centos-6.4
 suites:
   - name: default
     run_list:
-      - recipe[mysql::server]
-      - recipe[passenger_apache2::mod_rails]
       - recipe[redmine::default]
     attributes:
       mysql:
         server_root_password: 'root'
         server_repl_password: 'root'
         server_debian_password: 'root'
-
+      redmine:
+        db:
+          password: 'password'
+      passenger:
+        version: "4.0.48"

@@ -27,16 +27,16 @@ end
 
 default["redmine"]["version"] = "2.4.5"
 
-set["redmine"]["basedir"] = "/srv"
-set["redmine"]["dir"] = "#{redmine["basedir"]}/redmine-#{redmine["version"]}"
+set["redmine"]["basedir"] = "/srv/redmine"
 
 default["redmine"]["db"]["type"]     = "mysql"
-default["redmine"]["db"]["dbname"]     = "redmine"
-default["redmine"]["db"]["user"]     = "redmine"
+default["redmine"]["db"]["database"]     = "redmine"
+default["redmine"]["db"]["username"]     = "redmine"
 default["redmine"]["db"]["password"] = pw
-default["redmine"]["db"]["hostname"] = "localhost"
+default["redmine"]["db"]["host"] = "localhost"
 # https://tickets.opscode.com/browse/COOK-3487
-default["redmine"]["db"]["recipe"] = "mysql::client"
+default["redmine"]["db"]["server_recipe"] = "mysql::server"
+default["redmine"]["db"]["client_recipe"] = "mysql::client"
 
 default["redmine"]["server_name"] = "#{node["hostname"]}.#{node["domain"]}"
 default["redmine"]["server_aliases"] = [node["hostname"]]
@@ -47,6 +47,6 @@ when 'debian', 'ubuntu'
   default['redmine']['ssl_key'] = '/etc/ssl/private/ssl-cert-snakeoil.key'
   default['redmine']['ssl_cert'] = '/etc/ssl/certs/ssl-cert-snakeoil.pem'
 when 'redhat', 'centos', 'fedora', 'scientific', 'amazon'
-  default['redmine']['ssl_key'] = '/etc/pki/tls/private/redmine.key'
-  default['redmine']['ssl_cert'] = '/etc/pki/tls/certs/redmine.pem'
+  default['redmine']['ssl_key'] = '/etc/pki/tls/private/localhost.key'
+  default['redmine']['ssl_cert'] = '/etc/pki/tls/certs/localhost.crt'
 end
