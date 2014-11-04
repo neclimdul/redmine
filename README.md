@@ -6,16 +6,21 @@ Installs Redmine, a Ruby on Rails ticket tracking and wiki tool.
 
 ## Platform:
 
-Tested on Ubuntu 12.04.
+Tested on Ubuntu 12.04 and 14.04.
 
 ## Cookbooks:
 
 Required:
+
 * apache2
 * openssl
 * imagemagick
+* application
+* applicaton_ruby
+* database
 
 Suggested:
+
 * git
 * sqlite
 * mysql
@@ -46,7 +51,7 @@ Including this recipe in a run_list, role or on a node will install Redmine as a
 
     include_recipe "redmine"
 
-Because of all the options for running a Rails applicaiton, it is assumed you have something in your runlist that handles this. For example:
+Because of all the options for running a Rails application, it is assumed you have something in your run_list that handles this. For example:
 
     include_recipe "passenger_apache2::mod_rails"
 
@@ -56,8 +61,9 @@ You'll probably want to customize it to fit your environment, as a site-cookbook
 
 # License and Author
 
-Author:: Joshua Timberman (<joshua@opscode.com>)
+Author:: Joshua Timberman (<joshua@opscode.com>)  
 Author:: James Gilliland (<neclimdul@gmail.com>)
+
 Copyright:: 2009, Opscode, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License");
