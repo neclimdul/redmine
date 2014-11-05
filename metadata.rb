@@ -3,7 +3,7 @@ maintainer        "Opscode, Inc."
 maintainer_email  "neclimdul@gmail.com"
 license           "Apache 2.0"
 description       "Installs and configures redmine as a Rails app in passenger+apache2"
-version           "2.0.0"
+version           "2.0.1"
 
 recipe "redmine", "Installs and configures redmine under passenger + apache2"
 

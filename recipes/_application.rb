@@ -86,7 +86,8 @@ application "redmine" do
     params({
       "ssl_key" => node["redmine"]["ssl_key"],
       "ssl_cert" => node["redmine"]["ssl_cert"],
-      "ssl_chain" => node["redmine"]["ssl_chain"]
+      "ssl_chain" => node["redmine"]["ssl_chain"],
+      "passenger_user" => node['apache']['user']
     })
   end
 end
