@@ -84,6 +84,7 @@ application "redmine" do
   passenger_apache2 do
     server_aliases node["redmine"]["server_aliases"]
     params({
+      "server_name" => node["redmine"]["server_name"],
       "ssl_key" => node["redmine"]["ssl_key"],
       "ssl_cert" => node["redmine"]["ssl_cert"],
       "ssl_chain" => node["redmine"]["ssl_chain"],

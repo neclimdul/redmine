@@ -1,11 +1,11 @@
 <VirtualHost *:80>
-  ServerName <%= @params[:server_name] %>
+  ServerName <%= @params[:extra]["server_name"] %>
   ServerAlias <% @params[:server_aliases].each do |server_alias| %><%= server_alias %> <% end %>
-  Redirect permanent / https://<%= @params[:server_name] %>/
+  Redirect permanent / https://<%= @params[:extra]["server_name"] %>/
 </VirtualHost>
 
 <VirtualHost *:443>
-  ServerName <%= @params[:server_name] %>
+  ServerName <%= @params[:extra]["server_name"] %>
   ServerAlias <% @params[:server_aliases].each do |server_alias| %><%= server_alias %> <% end %>
   DocumentRoot <%= @params[:docroot] %>
 

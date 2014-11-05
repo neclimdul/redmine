@@ -24,6 +24,7 @@ suites:
         server_repl_password: 'root'
         server_debian_password: 'root'
       redmine:
+        server_name: 'test'
         db:
           password: 'password'
       passenger:

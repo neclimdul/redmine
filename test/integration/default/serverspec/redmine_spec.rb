@@ -34,6 +34,11 @@ describe "Redmine application" do
   end
 end
 
+describe file("/etc/apache2/sites-enabled/redmine.conf") do
+  it { should be_file }
+  its(:content) { should match /ServerName test/ }
+end
+
 describe file("/srv/redmine/shared/files") do
   it { should be_directory }
   it { should be_owned_by "www-data" }
@@ -45,6 +50,7 @@ end
 
 describe file("/srv/redmine/shared/plugins") do
   it { should be_directory }
+  it { should be_owned_by "www-data" }
 end
 
 describe file("/srv/redmine/current/plugins") do
