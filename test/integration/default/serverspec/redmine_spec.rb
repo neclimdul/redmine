@@ -43,7 +43,6 @@ describe file("/srv/redmine/shared/files") do
   it { should be_directory }
   it { should be_owned_by "www-data" }
 end
-
 describe file("/srv/redmine/current/files") do
   it { should be_linked_to '/srv/redmine/shared/files' }
 end
@@ -52,7 +51,23 @@ describe file("/srv/redmine/shared/plugins") do
   it { should be_directory }
   it { should be_owned_by "www-data" }
 end
-
 describe file("/srv/redmine/current/plugins") do
   it { should be_linked_to '/srv/redmine/shared/plugins' }
+end
+
+describe file("/srv/redmine/shared/logs") do
+  it { should be_directory }
+  it { should be_owned_by "www-data" }
+end
+describe file("/srv/redmine/current/logs") do
+  it { should be_linked_to '/srv/redmine/shared/logs' }
+end
+
+describe file("/srv/redmine/current/tmp") do
+  it { should be_directory }
+  it { should be_owned_by "www-data" }
+end
+describe file("/srv/redmine/current/public/plugin_assets") do
+  it { should be_directory }
+  it { should be_owned_by "www-data" }
 end

@@ -46,6 +46,10 @@ directory "#{node["redmine"]["basedir"]}/shared/plugins" do
   owner node['apache']['user']
   recursive true
 end
+directory "#{node["redmine"]["basedir"]}/shared/logs" do
+  owner node['apache']['user']
+  recursive true
+end
 
 application "redmine" do
   path node["redmine"]["basedir"]
@@ -55,10 +59,11 @@ application "redmine" do
   revision node["redmine"]["version"]
   migrate true
 
-  purge_before_symlink %w{files plugins}
+  purge_before_symlink %w{files plugins logs}
   symlinks(
     "files"   => "files",
-    "plugins"   => "plugins"
+    "plugins"   => "plugins",
+    "logs" => "logs"
   )
   rails do
     gems ['bundler']
@@ -91,4 +96,15 @@ application "redmine" do
       "passenger_user" => node['apache']['user']
     })
   end
+end
+
+directory "#{node["redmine"]["basedir"]}/current/tmp" do
+  owner node['apache']['user']
+  recursive true
+  subscribes :run, "application[redmine]"
+end
+directory "#{node["redmine"]["basedir"]}/current/public/plugin_assets" do
+  owner node['apache']['user']
+  subscribes :run, "application[redmine]"
+  recursive true
 end
