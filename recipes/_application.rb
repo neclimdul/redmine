@@ -108,3 +108,8 @@ directory "#{node["redmine"]["basedir"]}/current/public/plugin_assets" do
   subscribes :run, "application[redmine]"
   recursive true
 end
+file "#{node["redmine"]["basedir"]}/current/Gemfile.lock" do
+  owner node['apache']['user']
+  subscribes :run, "application[redmine]"
+  recursive true
+end
