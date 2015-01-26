@@ -111,5 +111,4 @@ end
 file "#{node["redmine"]["basedir"]}/current/Gemfile.lock" do
   owner node['apache']['user']
   subscribes :run, "application[redmine]"
-  recursive true
 end
