@@ -28,13 +28,13 @@
 ::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
 if Chef::Config[:solo]
-  if node["redmine"]["db"]["password"].nil?
+  if node['redmine']['db']['password'].nil?
     Chef::Application.fatal!('You must set redmine\'s database password in chef-solo mode.')
   end
 else
-  node.set_unless["redmine"]["db"]["password"] = secure_password
+  node.set_unless['redmine']['db']['password'] = secure_password
   node.save
 end
 
-include_recipe "redmine::_database"
-include_recipe "redmine::_application"
+include_recipe 'redmine::_database'
+include_recipe 'redmine::_application'

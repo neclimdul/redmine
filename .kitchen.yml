@@ -18,6 +18,7 @@ suites:
   - name: default
     run_list:
       - recipe[redmine::default]
+      - recipe[mysql::server]
     attributes:
       mysql:
         server_root_password: 'root'

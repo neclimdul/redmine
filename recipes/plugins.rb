@@ -18,11 +18,11 @@
 # limitations under the License.
 #
 
-execute "redmine-plugin-migration" do
-  command "bundle exec rake redmine:plugins:migrate"
-  cwd "#{node["redmine"]["basedir"]}/current"
-  environment({
-    "RAILS_ENV" => 'production'
-  })
+execute 'redmine-plugin-migration' do
+  command 'bundle exec rake redmine:plugins:migrate'
+  cwd "#{node['redmine']['basedir']}/current"
+  environment(
+    'RAILS_ENV' => 'production'
+  )
   action :nothing
 end

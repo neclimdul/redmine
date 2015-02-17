@@ -18,14 +18,14 @@
 # limitations under the License.
 #
 
-define :redmine_plugin, :repository => nil do
-  include_recipe "redmine::plugins"
+define :redmine_plugin, repository: nil do
+  include_recipe 'redmine::plugins'
 
   # Default Assignee plugin
-  git "#{node["redmine"]["basedir"]}/shared/plugins/#{params[:name]}" do
+  git "#{node['redmine']['basedir']}/shared/plugins/#{params[:name]}" do
     repository params[:repository]
     action :sync
-    notifies :run, "execute[redmine-plugin-migration]", :delayed
-    notifies :restart, "service[apache2]", :delayed
+    notifies :run, 'execute[redmine-plugin-migration]', :delayed
+    notifies :restart, 'service[apache2]', :delayed
   end
 end
