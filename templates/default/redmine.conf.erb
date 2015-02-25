@@ -34,9 +34,6 @@
   # Disable weak protocols.
   SSLProtocol ALL -SSLv2 -SSLv3
 
-  # Accept strong encryption only
-  SSLCipherSuite ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:!RC4+RSA:+HIGH:+MEDIUM
-
   <Directory <%= @params[:docroot] %>>
     Options FollowSymLinks
     AllowOverride None
