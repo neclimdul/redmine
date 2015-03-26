@@ -17,8 +17,8 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[mysql_service_test::single]
       - recipe[redmine::default]
-      - recipe[mysql::server]
     attributes:
       mysql:
         server_root_password: 'root'
@@ -28,5 +28,7 @@ suites:
         server_name: 'test'
         db:
           password: 'password'
+          client_recipe: 'mysql_client_test'
+          server_recipe: 'mysql_service_test::single'
       passenger:
-        version: "4.0.48"
+        version: "5.0.5"

@@ -65,18 +65,37 @@ application 'redmine' do
   end
 
   before_migrate do
-    # this is a bit ugly linking the database config early but redmine's Gemfile looks at so we need it during the bundle run.
+    # TODO: Support languages.
+    command = "(ln -s ../../../shared/database.yml config/database.yml && bundle exec rake redmine:load_default_data); rm config/database.yml"
+    execute command do
+      cwd new_resource.release_path
+      user new_resource.owner
+      environment new_resource.environment
+    end
+    # this is a bit ugly linking the database config early but redmine's Gemfile looks at so we need it during the bundle install.
     execute 'ln -s ../../../shared/database.yml config/database.yml' do
       cwd new_resource.release_path
       user new_resource.owner
       environment new_resource.environment
     end
   end
+
   before_restart do
     execute 'bundle exec rake generate_secret_token' do
       cwd new_resource.release_path
       user new_resource.owner
       environment new_resource.environment
+    end
+    directory "#{node['redmine']['basedir']}/current/tmp" do
+      owner node['apache']['user']
+      recursive true
+    end
+    directory "#{node['redmine']['basedir']}/current/public/plugin_assets" do
+      owner node['apache']['user']
+      recursive true
+    end
+    file "#{node['redmine']['basedir']}/current/Gemfile.lock" do
+      owner node['apache']['user']
     end
   end
 
@@ -92,17 +111,3 @@ application 'redmine' do
   end
 end
 
-directory "#{node['redmine']['basedir']}/current/tmp" do
-  owner node['apache']['user']
-  recursive true
-  subscribes :run, 'application[redmine]'
-end
-directory "#{node['redmine']['basedir']}/current/public/plugin_assets" do
-  owner node['apache']['user']
-  subscribes :run, 'application[redmine]'
-  recursive true
-end
-file "#{node['redmine']['basedir']}/current/Gemfile.lock" do
-  owner node['apache']['user']
-  subscribes :run, 'application[redmine]'
-end

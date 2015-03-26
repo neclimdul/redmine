@@ -38,10 +38,12 @@ else
 
   case node['redmine']['db']['type']
   when 'mysql', 'mariadb'
-    if node['redmine']['db']['type'] == 'mariadb'
-      Chef::Platform.set platform: :ubuntu, resource: :mysql2_chef_gem, provider: Chef::Provider::Mysql2ChefGem::Mariadb
+    mysql2_chef_gem 'default' do
+      provider node['redmine']['db']['type'] == 'mariadb' ?
+        Chef::Provider::Mysql2ChefGem::Mariadb :
+        Chef::Provider::Mysql2ChefGem::Mysql
+      action :install
     end
-    include_recipe 'database::mysql'
     db_provider = Chef::Provider::Database::Mysql
     user_provider = Chef::Provider::Database::MysqlUser
     connection_info.merge!(

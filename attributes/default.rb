@@ -23,18 +23,18 @@ pw << OpenSSL::Random.random_bytes(1).gsub(/\W/, '') while pw.length < 20
 
 # database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
 
-default['redmine']['version'] = '2.4.5'
+default['redmine']['version'] = '2.6.3'
 
 set['redmine']['basedir'] = '/srv/redmine'
 
-default['redmine']['db']['type']     = 'mysql'
-default['redmine']['db']['database']     = 'redmine'
-default['redmine']['db']['username']     = 'redmine'
+default['redmine']['db']['type'] = 'mysql'
+default['redmine']['db']['database'] = 'redmine'
+default['redmine']['db']['username'] = 'redmine'
 default['redmine']['db']['password'] = pw
-default['redmine']['db']['host'] = 'localhost'
+default['redmine']['db']['host'] = '127.0.0.1'
 # https://tickets.opscode.com/browse/COOK-3487
-default['redmine']['db']['server_recipe'] = 'mysql::server'
-default['redmine']['db']['client_recipe'] = 'mysql::client'
+default['redmine']['db']['server_recipe'] = ''
+default['redmine']['db']['client_recipe'] = ''
 
 default['redmine']['server_name'] = "#{node['hostname']}.#{node['domain']}"
 default['redmine']['server_aliases'] = [node['hostname']]
