@@ -23,7 +23,7 @@ pw << OpenSSL::Random.random_bytes(1).gsub(/\W/, '') while pw.length < 20
 
 # database_server = search(:node, "database_master:true").map {|n| n['fqdn']}.first
 
-default['redmine']['version'] = '2.6.3'
+default['redmine']['version'] = '2.6.5'
 
 set['redmine']['basedir'] = '/srv/redmine'
 
