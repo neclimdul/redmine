@@ -7,6 +7,7 @@ version '2.1.0'
 
 recipe 'redmine', 'Installs and configures redmine under passenger + apache2'
 
+# these are weird. see https://github.com/poise/application_ruby/issues/70 and Berksfile
 depends 'application'
 depends 'application_ruby'
 depends 'database', '~> 4.0'

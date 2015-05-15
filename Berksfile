@@ -3,8 +3,9 @@ metadata
 
 cookbook 'apt', '~> 2.0'
 
-cookbook 'application'
-cookbook 'application_ruby', git: 'https://github.com/poise/application_ruby.git'
+# Workaround https://github.com/poise/application_ruby/issues/70
+cookbook 'application', '~> 4.1'
+cookbook 'application_ruby', git: 'https://github.com/poise/application_ruby.git', ref: '0cfc68c41fb141c7ce5955390df9c537855fd820'
 cookbook 'apache2', '~> 3.0'
 cookbook 'passenger_apache2'
 
