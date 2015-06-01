@@ -38,10 +38,13 @@ else
 
   case node['redmine']['db']['type']
   when 'mysql', 'mariadb'
+    if node['redmine']['db']['type'] == 'mariadb'
+      gem_provider = Chef::Provider::Mysql2ChefGem::Mariadb
+    else
+      gem_provider = Chef::Provider::Mysql2ChefGem::Mysql
+    end
     mysql2_chef_gem 'default' do
-      provider node['redmine']['db']['type'] == 'mariadb' ?
-        Chef::Provider::Mysql2ChefGem::Mariadb :
-        Chef::Provider::Mysql2ChefGem::Mysql
+      provider gem_provider
       action :install
     end
     db_provider = Chef::Provider::Database::Mysql

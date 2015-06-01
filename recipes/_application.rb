@@ -66,7 +66,7 @@ application 'redmine' do
 
   before_migrate do
     # TODO: Support languages.
-    command = "(ln -s ../../../shared/database.yml config/database.yml && bundle exec rake redmine:load_default_data); rm config/database.yml"
+    command = '(ln -s ../../../shared/database.yml config/database.yml && bundle exec rake redmine:load_default_data); rm config/database.yml'
     execute command do
       cwd new_resource.release_path
       user new_resource.owner
@@ -110,4 +110,3 @@ application 'redmine' do
     )
   end
 end
-

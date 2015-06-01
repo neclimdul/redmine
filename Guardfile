@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 scope group: :unit
 
-ignore(/^\.gem\//, /^\.kitchen\//)
+ignore(%r{^\.gem/}, %r{^\.kitchen/})
 
 # directories %w(attributes files providers recipes resources templates)
 watch('config/Guardfile') do
@@ -12,15 +12,15 @@ end
 group :unit do
   guard :rubocop do
     watch(/.+\.rb$/)
-    watch(/(?:.+\/)?\.rubocop\.yml$/) { |m| File.dirname(m[0]) }
+    watch(%r{(?:.+/)?\.rubocop\.yml$}) { |m| File.dirname(m[0]) }
   end
   # --tags ~FC007 --tags ~FC015 --tags ~FC023
-  guard :foodcritic, cli: '--epic-fail any', cookbook_paths: '.' do
-    watch(/attributes\/.+\.rb$/)
-    watch(/providers\/.+\.rb$/)
-    watch(/recipes\/.+\.rb$/)
-    watch(/resources\/.+\.rb$/)
-    watch(/templates\/.+\.erb$/)
+  guard :foodcritic, cli: '--epic-fail any -t ~FC015', cookbook_paths: '.' do
+    watch(%r{attributes/.+\.rb$})
+    watch(%r{providers/.+\.rb$})
+    watch(%r{recipes/.+\.rb$})
+    watch(%r{resources/.+\.rb$})
+    watch(%r{templates/.+\.erb$})
   end
 
   # guard :rspec, cmd: 'bundle exec rspec --color --fail-fast', all_on_start: false do
@@ -33,7 +33,7 @@ end
 group :integration do
   guard :kitchen do
     watch(/.+\.rb$/)
-    watch(/^files\/.*$/)
+    watch(%r{^files/.*$})
     watch(/.kitchen.yml$/)
   end
 end

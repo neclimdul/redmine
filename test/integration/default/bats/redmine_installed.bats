@@ -23,6 +23,11 @@ load test_helper
   assert_success
 }
 
+@test "Bundle install was run on redmine" {
+  run find /srv/redmine/current/.bundle
+  assert_success
+}
+
 @test "Bundle setup allows setup of plugins" {
   cd /srv/redmine/current
   export PATH="/opt/chef/embedded/bin:$PATH"
