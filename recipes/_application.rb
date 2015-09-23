@@ -38,7 +38,7 @@ when 'sqlite'
 end
 db.delete('type')
 
-%w(files plugins logs).each do |dir|
+%w(files plugins log).each do |dir|
   directory "#{node['redmine']['basedir']}/shared/#{dir}" do
     owner node['apache']['user']
     recursive true
@@ -53,11 +53,11 @@ application 'redmine' do
   revision node['redmine']['version']
   migrate true
 
-  purge_before_symlink %w(files plugins logs)
+  purge_before_symlink %w(files plugins log)
   symlinks(
     'files'   => 'files',
     'plugins'   => 'plugins',
-    'logs' => 'logs'
+    'log' => 'log'
   )
   rails do
     gems ['bundler']

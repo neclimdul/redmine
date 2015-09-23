@@ -55,12 +55,12 @@ describe file("/srv/redmine/current/plugins") do
   it { should be_linked_to '/srv/redmine/shared/plugins' }
 end
 
-describe file("/srv/redmine/shared/logs") do
+describe file("/srv/redmine/shared/log") do
   it { should be_directory }
   it { should be_owned_by "www-data" }
 end
-describe file("/srv/redmine/current/logs") do
-  it { should be_linked_to '/srv/redmine/shared/logs' }
+describe file("/srv/redmine/current/log") do
+  it { should be_linked_to '/srv/redmine/shared/log' }
 end
 
 describe file("/srv/redmine/current/tmp") do
